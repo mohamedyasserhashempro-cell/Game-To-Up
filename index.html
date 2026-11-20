@@ -1,0 +1,579 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game-To-Up | متجر شحن الألعاب والبطاقات الرقمية</title>
+    <meta name="description" content="نموذج واجهة تجريبي لمتجر شحن ألعاب وبطاقات رقمية. لا تتم معالجة عمليات دفع أو شحن حقيقية." />
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="/src/style.css">
+  </head>
+  <body class="bg-[#0b0c10] text-[#e0e2ec] font-['Cairo',sans-serif] selection:bg-purple-600 selection:text-white antialiased min-h-screen flex flex-col justify-between">
+    
+    <!-- Top Announcement Bar -->
+    <div id="announcement-bar" class="bg-gradient-to-r from-purple-950/80 via-purple-900/60 to-purple-950/80 text-purple-200 text-xs py-1.5 px-4 text-center border-b border-purple-800/30 flex items-center justify-center gap-2">
+      <span class="text-amber-400 animate-pulse">🔥</span>
+      <span id="announcement-text">نسخة تجريبية للعرض فقط — لا تتم عمليات شحن أو مدفوعات حقيقية. لا تدخل بيانات حساسة.</span>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <header class="sticky top-0 z-40 w-full backdrop-blur-xl bg-[#0b0c10]/90 border-b border-purple-900/20 transition-all duration-300">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+          
+          <!-- Brand Logo -->
+          <button id="nav-brand" class="flex items-center gap-2.5 text-right group focus:outline-none cursor-pointer">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-700 to-indigo-600 flex items-center justify-center shadow-lg shadow-purple-900/40 group-hover:scale-105 transition-transform text-white font-black text-xl">
+              ⚡
+            </div>
+            <div class="flex flex-col">
+              <span id="header-site-name" class="text-xl sm:text-2xl font-black tracking-tight text-white group-hover:text-purple-300 transition-colors">
+                Game-To-Up
+              </span>
+              <span class="text-[10px] text-purple-400 font-medium -mt-1 tracking-wider">
+                نموذج متجر تجريبي
+              </span>
+            </div>
+          </button>
+
+          <!-- Desktop Navigation -->
+          <nav class="hidden md:flex items-center gap-1.5 lg:gap-2">
+            <button id="nav-link-store" class="nav-btn px-3.5 py-2 rounded-lg text-sm font-medium transition-all text-white bg-purple-950/60 border border-purple-700/40 shadow-sm cursor-pointer">
+              الرئيسية
+            </button>
+            <button id="nav-link-games" class="nav-btn px-3.5 py-2 rounded-lg text-sm font-medium transition-all text-gray-300 hover:text-white hover:bg-white/5 cursor-pointer">
+              الألعاب
+            </button>
+            <button id="nav-link-cards" class="nav-btn px-3.5 py-2 rounded-lg text-sm font-medium transition-all text-gray-300 hover:text-white hover:bg-white/5 cursor-pointer">
+              البطاقات
+            </button>
+            <button id="nav-link-offers" class="nav-btn px-3.5 py-2 rounded-lg text-sm font-medium transition-all text-gray-300 hover:text-white hover:bg-white/5 cursor-pointer">
+              العروض
+            </button>
+            <button id="nav-link-tracking" class="nav-btn px-3.5 py-2 rounded-lg text-sm font-medium transition-all text-gray-300 hover:text-white hover:bg-white/5 cursor-pointer">
+              تتبع الطلب
+            </button>
+          </nav>
+
+          <!-- Right Controls: Currency Switcher + Dashboard Toggle -->
+          <div class="flex items-center gap-2.5 sm:gap-3">
+            
+            <!-- Currency Dropdown Button -->
+            <div class="relative">
+              <button
+                id="btn-currency-toggle"
+                class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#161822] border border-gray-800 hover:border-purple-600/60 text-xs sm:text-sm font-bold text-gray-200 transition-all cursor-pointer"
+                title="تغيير عملة المتجر"
+              >
+                <span id="current-currency-flag" class="text-base">🇸🇦</span>
+                <span id="current-currency-code">SAR</span>
+                <span id="current-currency-symbol" class="text-xs text-gray-400">(ر.س)</span>
+                <span class="text-[10px] text-gray-500">▼</span>
+              </button>
+
+              <!-- Currency Dropdown Menu -->
+              <div 
+                id="currency-menu"
+                class="hidden absolute left-0 sm:right-0 mt-2 w-48 bg-[#161822] border border-purple-900/40 rounded-xl shadow-2xl p-1.5 z-50 animate-in fade-in zoom-in-95 duration-150"
+              >
+                <div class="px-2 py-1.5 text-[11px] font-bold text-gray-400 uppercase tracking-wider border-b border-gray-800 mb-1">
+                  اختر عملة الحساب
+                </div>
+                <button data-currency="SAR" class="currency-option w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition-colors text-white hover:bg-white/5 cursor-pointer">
+                  <div class="flex items-center gap-2">
+                    <span class="text-base">🇸🇦</span>
+                    <span>ريال سعودي</span>
+                  </div>
+                  <span class="text-xs opacity-80 font-mono">SAR</span>
+                </button>
+                <button data-currency="SDG" class="currency-option w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition-colors text-gray-300 hover:bg-white/5 cursor-pointer">
+                  <div class="flex items-center gap-2">
+                    <span class="text-base">🇸🇩</span>
+                    <span>جنيه سوداني</span>
+                  </div>
+                  <span class="text-xs opacity-80 font-mono">SDG</span>
+                </button>
+                <button data-currency="USD" class="currency-option w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-bold transition-colors text-gray-300 hover:bg-white/5 cursor-pointer">
+                  <div class="flex items-center gap-2">
+                    <span class="text-base">🇺🇸</span>
+                    <span>دولار أمريكي</span>
+                  </div>
+                  <span class="text-xs opacity-80 font-mono">USD</span>
+                </button>
+              </div>
+            </div>
+
+
+            <!-- Mobile Menu Toggle Button -->
+            <button
+              id="btn-mobile-menu"
+              class="md:hidden p-2 rounded-lg bg-[#161822] text-gray-300 hover:text-white hover:bg-white/10 cursor-pointer"
+              aria-label="القائمة"
+            >
+              ☰
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Mobile Navigation Drawer -->
+      <div id="mobile-drawer" class="hidden md:hidden border-t border-purple-900/30 bg-[#0d0e15] px-4 pt-3 pb-6 space-y-2">
+        <button id="mob-link-store" class="w-full text-right px-4 py-2.5 rounded-lg text-sm font-semibold text-white bg-purple-900/40 border border-purple-700/50">
+          الرئيسية
+        </button>
+        <button id="mob-link-games" class="w-full text-right px-4 py-2.5 rounded-lg text-sm font-semibold text-gray-300 hover:bg-white/5">
+          الألعاب
+        </button>
+        <button id="mob-link-cards" class="w-full text-right px-4 py-2.5 rounded-lg text-sm font-semibold text-gray-300 hover:bg-white/5">
+          بطاقات جوجل بلاي
+        </button>
+        <button id="mob-link-offers" class="w-full text-right px-4 py-2.5 rounded-lg text-sm font-semibold text-gray-300 hover:bg-white/5">
+          العروض الحصرية
+        </button>
+        <button id="mob-link-tracking" class="w-full text-right px-4 py-2.5 rounded-lg text-sm font-semibold text-gray-300 hover:bg-white/5">
+          تتبع الطلب
+        </button>
+      </div>
+    </header>
+
+    <!-- MAIN APP CONTAINER -->
+    <main id="app-main" class="flex-grow">
+      
+      <!-- ================= 1. STOREFRONT VIEW ================= -->
+      <div id="view-store" class="space-y-12">
+        
+        <!-- Hero Section -->
+        <section class="relative w-full overflow-hidden">
+          <div class="relative min-h-[480px] sm:min-h-[540px] flex items-center justify-center text-center px-4 sm:px-6 lg:px-8">
+            
+            <!-- Dynamic Background Image with Gradient Overlay -->
+            <div 
+              id="hero-bg-container"
+              class="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-700 transform scale-105"
+              style="background-image: url('https://images.unsplash.com/photo-1612287233207-6b4df9d0b666?q=80&w=1600&auto=format&fit=crop'); filter: brightness(0.38) saturate(1.3);"
+            ></div>
+
+            <div class="absolute inset-0 bg-gradient-to-b from-[#0b0c10]/70 via-[#0b0c10]/85 to-[#0b0c10]"></div>
+            <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/30 via-transparent to-transparent pointer-events-none"></div>
+
+            <!-- Hero Content -->
+            <div class="relative z-10 max-w-3xl mx-auto space-y-6 pt-10 pb-16">
+              <h1 id="hero-title-text" class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight drop-shadow-md">
+                اشحن ألعابك المفضلة الآن بضغطة واحدة
+              </h1>
+
+              <p id="hero-subtitle-text" class="text-sm sm:text-base md:text-lg text-purple-100/85 font-normal max-w-2xl mx-auto leading-relaxed">
+                استكشف نموذجًا تجريبيًا لواجهة متجر ألعاب وبطاقات رقمية. هذه النسخة مخصصة للعرض والتجربة فقط.
+              </p>
+
+              <div class="pt-2">
+                <button
+                  id="btn-hero-cta"
+                  class="inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-gradient-to-r from-purple-500 via-fuchsia-500 to-purple-600 text-white font-bold text-base shadow-xl shadow-purple-950/60 hover:shadow-purple-700/50 hover:scale-105 transition-all duration-200 cursor-pointer"
+                >
+                  <span id="hero-cta-text">ابدأ الشحن ⚡</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3 Highlight Feature Cards -->
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 sm:-mt-12 relative z-20">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
+              
+              <div class="group bg-[#11131c]/90 backdrop-blur-md border border-purple-900/30 hover:border-purple-600/60 rounded-2xl p-6 text-center shadow-xl hover:shadow-2xl hover:shadow-purple-950/40 transition-all duration-300">
+                <div class="w-12 h-12 rounded-xl bg-purple-950/70 border border-purple-800/40 flex items-center justify-center mx-auto mb-4 text-purple-400 group-hover:text-purple-300 text-2xl group-hover:scale-110 transition-transform">
+                  ⚡
+                </div>
+                <h2 class="text-lg font-bold text-white mb-1.5">تجربة طلب توضيحية</h2>
+                <p class="text-xs sm:text-sm text-gray-400 leading-relaxed">
+                  تعرّف على خطوات واجهة الطلب دون إنشاء طلب حقيقي أو تنفيذ عملية دفع.
+                </p>
+              </div>
+
+              <div class="group bg-[#11131c]/90 backdrop-blur-md border border-purple-900/30 hover:border-purple-600/60 rounded-2xl p-6 text-center shadow-xl hover:shadow-2xl hover:shadow-purple-950/40 transition-all duration-300">
+                <div class="w-12 h-12 rounded-xl bg-purple-950/70 border border-purple-800/40 flex items-center justify-center mx-auto mb-4 text-purple-400 group-hover:text-purple-300 text-2xl group-hover:scale-110 transition-transform">
+                  🎧
+                </div>
+                <h2 class="text-lg font-bold text-white mb-1.5">تصميم متجاوب</h2>
+                <p class="text-xs sm:text-sm text-gray-400 leading-relaxed">
+                  واجهة مصممة لتناسب الشاشات المختلفة وتجربة الاستخدام عبر الهاتف والحاسوب.
+                </p>
+              </div>
+
+              <div class="group bg-[#11131c]/90 backdrop-blur-md border border-purple-900/30 hover:border-purple-600/60 rounded-2xl p-6 text-center shadow-xl hover:shadow-2xl hover:shadow-purple-950/40 transition-all duration-300">
+                <div class="w-12 h-12 rounded-xl bg-purple-950/70 border border-purple-800/40 flex items-center justify-center mx-auto mb-4 text-purple-400 group-hover:text-purple-300 text-2xl group-hover:scale-110 transition-transform">
+                  🛡️
+                </div>
+                <h2 class="text-lg font-bold text-white mb-1.5">خيارات دفع توضيحية</h2>
+                <p class="text-xs sm:text-sm text-gray-400 leading-relaxed">
+                  أسماء وسائل الدفع معروضة لاستعراض شكل الواجهة فقط، ولا يوجد تكامل دفع فعلي.
+                </p>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- Google Play Promo Section (3D Showcase) -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#131525] via-[#0f111c] to-[#161226] border border-purple-800/40 p-6 sm:p-10 lg:p-12 shadow-2xl">
+            <!-- Ambient Glow -->
+            <div class="absolute -top-24 -left-24 w-72 h-72 bg-purple-600/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -right-24 w-72 h-72 bg-fuchsia-600/15 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+              
+              <!-- Left Graphic Showcase -->
+              <div class="order-2 lg:order-2 flex justify-center items-center">
+                <div class="relative group w-full max-w-md">
+                  <!-- Ambient back glow -->
+                  <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur-md opacity-30 group-hover:opacity-60 transition duration-500"></div>
+                  
+                  <div class="relative rounded-2xl overflow-hidden border border-purple-500/30 bg-[#0d0e17] shadow-2xl">
+                    <img
+                      id="promo-img-preview"
+                      src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000&auto=format&fit=crop"
+                      alt="بطاقات جوجل بلاي"
+                      class="w-full h-64 sm:h-72 object-cover object-center transform group-hover:scale-105 transition-transform duration-700"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0d0e17] via-transparent to-transparent opacity-90"></div>
+                    
+                    <!-- Floating Overlays -->
+                    <div class="absolute top-3 right-3 flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-950/80 border border-purple-500/50 text-[11px] font-bold text-purple-200 backdrop-blur-md shadow-lg">
+                      <span>✨</span>
+                      <span>كروت رقمية أصلية</span>
+                    </div>
+                    
+                    <div class="absolute bottom-4 right-4 left-4 flex items-center justify-between">
+                      <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-lg bg-purple-600/30 border border-purple-400/40 flex items-center justify-center text-purple-300 font-bold text-sm">
+                          🎁
+                        </div>
+                        <div>
+                          <span class="text-xs font-bold text-white block">نموذج بطاقات رقمية</span>
+                          <span class="text-[10px] text-emerald-400 font-mono">عرض توضيحي فقط</span>
+                        </div>
+                      </div>
+                      <div class="px-2.5 py-1 rounded-lg bg-white/10 backdrop-blur-md text-[11px] font-mono font-bold text-white border border-white/10">
+                        USD / SAR / SDG
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Text Content -->
+              <div class="order-1 lg:order-1 text-right space-y-5">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-950/80 border border-purple-600/50 text-purple-300 text-xs font-bold shadow-sm">
+                  <span>🎁</span>
+                  <span>عروض حصرية للبطاقات</span>
+                </div>
+
+                <h2 id="promo-title-text" class="text-2xl sm:text-4xl font-extrabold text-white leading-tight">
+                  بطاقات جوجل بلاي بنظرة جديدة
+                </h2>
+
+                <p id="promo-desc-text" class="text-sm sm:text-base text-gray-300 leading-relaxed max-w-xl">
+                  اكتشف مجموعتنا الحصرية من بطاقات الهدايا بتصاميم ثلاثية الأبعاد مذهلة. تجربة تسوق فريدة تجمع بين الفن والتقنية لتناسب ذوقك الرفيع.
+                </p>
+
+                <div class="flex flex-wrap items-center gap-3 pt-2">
+                  <button
+                    id="btn-promo-explore"
+                    class="inline-flex items-center gap-2.5 px-7 py-3 rounded-xl bg-purple-100 hover:bg-white text-purple-950 font-bold text-sm shadow-lg hover:shadow-purple-500/20 hover:scale-105 transition-all duration-200 cursor-pointer"
+                  >
+                    <span>استكشف المجموعة</span>
+                    <span>←</span>
+                  </button>
+                  <span class="text-xs text-purple-300/80 font-medium">فئات متعددة من 5$ إلى 50$</span>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        <!-- Best-Selling Games Section -->
+        <section id="games-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 pb-4 border-b border-purple-900/20">
+            <div>
+              <h2 class="text-2xl sm:text-3xl font-black text-white flex items-center gap-2">
+                <span>أكثر الألعاب مبيعاً</span>
+                <span class="text-purple-400">✨</span>
+              </h2>
+              <p class="text-xs sm:text-sm text-gray-400 mt-1">
+                اشحن رصيدك في أشهر الألعاب التنافسية بأفضل الأسعار وأسرع تسليم.
+              </p>
+            </div>
+            <div class="flex items-center gap-2">
+              <button id="filter-all-games" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-purple-600 text-white shadow-sm cursor-pointer">
+                جميع الألعاب
+              </button>
+            </div>
+          </div>
+
+          <!-- Dynamic Games Grid -->
+          <div id="games-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+            <!-- Populated via JavaScript -->
+          </div>
+        </section>
+
+        <!-- Google Play Cards Section -->
+        <section id="cards-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div class="mb-8 pb-4 border-b border-purple-900/20 text-right">
+            <h2 class="text-2xl sm:text-3xl font-black text-white flex items-center gap-2">
+              <span>بطاقات جوجل بلاي</span>
+              <span class="text-purple-400">🎁</span>
+            </h2>
+            <p class="text-xs sm:text-sm text-gray-400 mt-1">
+              بطاقات هدايا جوجل بلاي لجميع المتاجر العالمية بأسعار منافسة وتجربة طلب توضيحية للكود.
+            </p>
+          </div>
+
+          <!-- Dynamic Cards Grid (6 Columns on large screens) -->
+          <div id="cards-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 sm:gap-5">
+            <!-- Populated via JavaScript -->
+          </div>
+        </section>
+
+      </div>
+
+
+      <!-- ================= 3. ORDER TRACKING VIEW ================= -->
+      <div id="view-tracking" class="hidden max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="text-center space-y-3 mb-10">
+          <div class="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-purple-950/80 border border-purple-700/50 text-purple-300 mb-2 shadow-lg text-2xl">
+            📦
+          </div>
+          <h1 class="text-2xl sm:text-4xl font-black text-white">تتبع حالة طلبك</h1>
+          <p class="text-sm text-gray-400 max-w-md mx-auto">
+            هذه الصفحة جزء من نموذج العرض فقط. لا تُنشأ طلبات حقيقية ولا توجد متابعة فعلية للشحن.
+          </p>
+        </div>
+
+        <form id="form-track-order" class="max-w-xl mx-auto mb-8">
+          <div class="relative flex items-center">
+            <input
+              id="input-track-id"
+              type="text"
+              placeholder="أدخل رقم الطلب مثلاً: GTO-94821"
+              class="w-full bg-[#141624] border-2 border-purple-900/50 hover:border-purple-600 focus:border-purple-500 rounded-2xl py-3.5 pr-5 pl-28 text-sm text-white placeholder-gray-500 shadow-xl focus:outline-none transition-all"
+            />
+            <button
+              type="submit"
+              class="absolute left-2 px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs sm:text-sm shadow-md cursor-pointer"
+            >
+              بحث 🔍
+            </button>
+          </div>
+        </form>
+
+        <div id="tracking-result-container">
+          <!-- Dynamic Order Result or default recent orders populated via JS -->
+        </div>
+      </div>
+
+      <!-- ================= 4. OFFERS VIEW ================= -->
+      <div id="view-offers" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-12">
+        <div class="text-center space-y-3">
+          <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-purple-950/80 border border-purple-600/50 text-purple-300 text-xs font-bold shadow-lg">
+            <span>🔥</span>
+            <span>عروض وخصومات حصرية</span>
+          </div>
+          <h1 class="text-3xl sm:text-5xl font-black text-white">أقوى باقات الشحن التوفيرية</h1>
+          <p class="text-sm text-gray-400 max-w-xl mx-auto">
+            احصل على رصيد إضافي وجواهر مجانية عند الشحن بالريال السعودي، الجنيه السوداني، أو الدولار.
+          </p>
+        </div>
+
+        <div id="offers-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+
+    </main>
+
+
+    <!-- Global Recharge Modal -->
+    <div id="modal-recharge" class="hidden fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md overflow-y-auto">
+      <div class="relative w-full max-w-2xl bg-[#11131e] border border-purple-800/40 rounded-2xl shadow-2xl overflow-hidden my-6">
+        
+        <!-- Modal Header -->
+        <div class="relative bg-gradient-to-r from-purple-950/80 via-[#151726] to-purple-950/80 p-5 border-b border-purple-900/30 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-xl overflow-hidden border border-purple-600/40 bg-black/40">
+              <img id="modal-product-img" src="" alt="Game" class="w-full h-full object-cover" />
+            </div>
+            <div>
+              <h3 id="modal-product-title" class="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+                <!-- Title -->
+              </h3>
+              <p id="modal-product-sub" class="text-xs text-purple-300 font-medium">
+                تجربة طلب توضيحية وتلقائي
+              </p>
+            </div>
+          </div>
+          <button id="btn-close-modal" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors cursor-pointer">
+            ✕
+          </button>
+        </div>
+
+        <!-- Modal Form Body -->
+        <div id="modal-form-container" class="p-5 sm:p-6 space-y-6 max-h-[75vh] overflow-y-auto">
+          
+          <!-- Modal Currency Picker -->
+          <div class="bg-[#171926] p-3 rounded-xl border border-gray-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <span class="text-xs font-bold text-gray-300">العملة المختارة للدفع:</span>
+            <div class="flex gap-1.5">
+              <button data-mcurr="SAR" class="btn-modal-curr px-3 py-1.5 rounded-lg text-xs font-bold bg-purple-600 text-white cursor-pointer">🇸🇦 SAR</button>
+              <button data-mcurr="SDG" class="btn-modal-curr px-3 py-1.5 rounded-lg text-xs font-bold bg-[#10121b] text-gray-400 border border-gray-800 cursor-pointer">🇸🇩 SDG</button>
+              <button data-mcurr="USD" class="btn-modal-curr px-3 py-1.5 rounded-lg text-xs font-bold bg-[#10121b] text-gray-400 border border-gray-800 cursor-pointer">🇺🇸 USD</button>
+            </div>
+          </div>
+
+          <!-- 1. Packages Selection -->
+          <div>
+            <label class="block text-sm font-bold text-white mb-2.5">1. اختر الباقة أو الكمية:</label>
+            <div id="modal-packages-list" class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+
+          <!-- 2. Account Details Inputs -->
+          <div class="space-y-3 pt-2">
+            <label class="block text-sm font-bold text-white">2. بيانات الحساب أو الاستلام:</label>
+            <div id="modal-fields-container" class="space-y-3">
+              <!-- Populated via JS -->
+            </div>
+          </div>
+
+          <!-- 3. Payment Method -->
+          <div class="pt-2">
+            <label class="block text-sm font-bold text-white mb-2.5">3. وسيلة دفع (للعرض فقط):</label>
+            <p class="mb-2 rounded-lg border border-amber-700/40 bg-amber-950/30 p-3 text-[11px] leading-6 text-amber-200">هذه وسائل دفع معروضة لتوضيح التصميم فقط. لا توجد بوابة دفع متصلة، ولن يتم خصم أي مبلغ.</p>
+            <div id="modal-payment-options" class="space-y-2">
+              <!-- Populated based on active currency via JS -->
+            </div>
+          </div>
+
+          <!-- Total & Confirm -->
+          <div class="pt-3 border-t border-gray-800 space-y-4">
+            <div class="flex items-center justify-between bg-[#151724] p-4 rounded-xl border border-purple-900/30">
+              <div>
+                <span class="text-xs text-gray-400 block">المبلغ الإجمالي المطلوب:</span>
+                <span id="modal-total-price" class="text-lg sm:text-2xl font-black text-white font-mono">
+                  --
+                </span>
+              </div>
+              <div class="text-left text-[11px] text-purple-300 font-mono">
+                <div id="modal-rate-note">1 USD ≈ 3.75 SAR</div>
+                <div class="text-emerald-400 font-bold">⚡ تجربة طلب توضيحية وتلقائي</div>
+              </div>
+            </div>
+
+            <button id="btn-submit-order" class="w-full py-3.5 px-6 rounded-xl bg-gradient-to-r from-purple-600 via-fuchsia-600 to-purple-700 hover:from-purple-500 hover:to-purple-600 text-white font-black text-base shadow-xl shadow-purple-950/60 transition-all flex items-center justify-center gap-2 cursor-pointer">
+              <span>تجربة الطلب (غير مفعّلة)</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Order Success Body (hidden initially) -->
+        <div id="modal-success-container" class="hidden p-6 sm:p-8 text-center space-y-6">
+          <div class="w-16 h-16 rounded-full bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto text-3xl">
+            ✓
+          </div>
+          <div class="space-y-2">
+            <h4 class="text-2xl font-black text-white">تم استلام طلب الشحن بنجاح!</h4>
+            <p class="text-sm text-gray-300 max-w-md mx-auto">
+              طلبك الآن قيد المعالجة السريعة والتنفيذ. يمكنك استخدام رقم الطلب لتتبع حالة الشحن.
+            </p>
+          </div>
+
+          <div class="bg-[#171926] p-4 rounded-2xl border border-purple-900/40 max-w-sm mx-auto space-y-2">
+            <span class="text-xs text-gray-400">رقم الطلب الخاص بك:</span>
+            <div class="flex items-center justify-center gap-2">
+              <span id="success-order-number" class="text-2xl font-mono font-black text-purple-300">GTO-XXXXX</span>
+              <button id="btn-copy-order-num" class="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white cursor-pointer" title="نسخ">
+                📋
+              </button>
+            </div>
+            <span id="copy-feedback" class="hidden text-xs text-emerald-400 font-bold block">✓ تم نسخ رقم الطلب إلى الحافظة</span>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+            <button id="btn-success-track" class="px-6 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-bold text-sm cursor-pointer">
+              تتبع حالة الطلب
+            </button>
+            <a id="success-whatsapp-link" href="#" target="_blank" class="px-6 py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-black font-bold text-sm flex items-center justify-center gap-2 cursor-pointer">
+              <span>💬 تأكيد عبر واتساب</span>
+            </a>
+            <button id="btn-success-close" class="px-6 py-2.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 text-sm font-semibold cursor-pointer">
+              إغلاق
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Main Footer -->
+    <footer class="w-full bg-[#07080c] border-t border-purple-950/40 mt-16 text-gray-400">
+      <div class="border-b border-gray-900 py-6 bg-[#0b0c12]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+          <span class="text-gray-400 font-bold">خيارات دفع معروضة للتوضيح فقط (غير مفعّلة):</span>
+          <div class="flex flex-wrap items-center gap-2 sm:gap-3 text-xs font-semibold">
+            <span class="px-3 py-1.5 rounded-lg bg-[#141624] border border-gray-800 text-gray-200">🇸🇦 مدى (Mada)</span>
+            <span class="px-3 py-1.5 rounded-lg bg-[#141624] border border-gray-800 text-gray-200">🇸🇩 تطبيق بنكك (Bankak)</span>
+            <span class="px-3 py-1.5 rounded-lg bg-[#141624] border border-gray-800 text-gray-200">📱 STC Pay</span>
+            <span class="px-3 py-1.5 rounded-lg bg-[#141624] border border-gray-800 text-gray-200">💳 Visa / MasterCard</span>
+            <span class="px-3 py-1.5 rounded-lg bg-[#141624] border border-gray-800 text-gray-200">🍏 Apple Pay</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="text-center md:text-right space-y-1">
+            <div class="flex items-center justify-center md:justify-start gap-2">
+              <div class="w-7 h-7 rounded-lg bg-purple-600 flex items-center justify-center text-white font-bold">
+                ⚡
+              </div>
+              <span id="footer-site-name" class="text-xl font-black text-white">Game-To-Up</span>
+            </div>
+            <p class="text-xs text-gray-500">
+              © 2024-2026 Game-To-Up. جميع الحقوق محفوظة.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-center gap-5 text-xs text-gray-400">
+            <button id="footer-link-privacy" class="hover:text-purple-300 cursor-pointer">
+              سياسة الخصوصية
+            </button>
+            <button id="footer-link-terms" class="hover:text-purple-300 cursor-pointer">
+              شروط الخدمة
+            </button>
+            <button id="footer-link-faq" class="hover:text-purple-300 cursor-pointer">
+              الأسئلة الشائعة
+            </button>
+            <button id="footer-link-tracking" class="text-purple-400 hover:text-purple-300 font-bold cursor-pointer">
+              تتبع طلبك
+            </button>
+
+          </div>
+        </div>
+      </div>
+    </footer>
+
+
+    <!-- Pure Vanilla TypeScript / JavaScript Application Script -->
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
